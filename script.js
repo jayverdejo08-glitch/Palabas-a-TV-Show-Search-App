@@ -178,7 +178,7 @@ async function getJSON(url) {
   if (!response.ok) {
     throw new Error(
       USE_SAMPLE_DATA
-        ? "Sample mode only knows: friends, office, breaking bad, stranger things, sherlock, thrones, sample."
+        ? "No matches found."
         : `Request failed (HTTP ${response.status}).`
     );
   }
@@ -188,12 +188,13 @@ async function getJSON(url) {
 async function searchShows(query) {
   setStatus(`Searching for "${query}"…`, "loading");
   results.replaceChildren();
+  currentItems = [];
 
   try {
     const data = await getJSON(searchURL(query));
 
     if (data.length === 0) {
-      setStatus(`No shows found for "${query}".`, "error");
+      setStatus("No matches found.", "error");
       return;
     }
 
